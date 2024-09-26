@@ -23,3 +23,13 @@ object avion {
 
   method hablar() = "Bienvenidos a mi juego..." 
 }
+
+object enemigo {
+  var property position = game.at(19,0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
+
+  method image() = "ufo_game_enemy.png"
+
+  method movete(){  // se desplaza uno para la izquierda
+    position = position.left(1)
+  }
+}

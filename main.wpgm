@@ -11,7 +11,10 @@ program PepitaGame {
 
 	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
 	
+	game.addVisual(enemigo) 
 	game.addVisual(pepita) 
+
+	game.onTick(1000, "movimiento", { enemigo.movete() }) // cada 1 segundo el enemigo se mueve
 
 	keyboard.w().onPressDo({ pepita.fly(1) })
 
