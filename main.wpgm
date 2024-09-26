@@ -3,14 +3,19 @@ import wollok.game.*
 import pepita.*
 
 program PepitaGame {
-	game.title("Pepita")
+	game.title("Juego")
 	game.height(10)
-	game.width(10)
+	game.width(20)
 	game.cellSize(100)
+	game.boardGround("sky1.png") // Fondo del juego
 
-	game.addVisual(pepita)
+	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
+	
+	game.addVisual(pepita) 
 
 	keyboard.w().onPressDo({ pepita.fly(1) })
+
+	keyboard.h().onPressDo({game.say(avion,avion.hablar())})
 
 	game.start()
 }
