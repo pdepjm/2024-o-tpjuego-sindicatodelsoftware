@@ -1,8 +1,8 @@
 import wollok.game.*
 
-import pepita.*
+import avion.*
 
-program PepitaGame {
+program PlaneFight {
 	game.title("Juego")
 	game.height(10)
 	game.width(20)
@@ -14,11 +14,16 @@ program PepitaGame {
 	game.addVisual(enemigo) 
 	game.addVisual(pepita) 
 
+	//const enemigo = new Enemigo()
+	//game.onTick(4000, "spawnEnemigo", {const enemigo = new Enemigo()})
+
 	game.onTick(1000, "movimiento", { enemigo.movete() }) // cada 1 segundo el enemigo se mueve
 
 	keyboard.w().onPressDo({ pepita.fly(1) })
 
 	keyboard.h().onPressDo({game.say(avion,avion.hablar())})
+
+	keyboard.v().onPressDo({game.say(avion,avion.decirVida().toString())})
 
 	game.start()
 }

@@ -17,11 +17,14 @@ object pepita {
 }
 
 object avion {
+  var property vida = 3 
   var property position = game.center() 
 
   method image() = "Biplane (1).png"
 
   method hablar() = "Bienvenidos a mi juego..." 
+
+  method decirVida() = self.vida()
 }
 
 object enemigo {

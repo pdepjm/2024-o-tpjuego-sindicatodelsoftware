@@ -1,6 +1,6 @@
-import pepita.*
+import avion.*
 
-describe "group of tests for pepita" {
+describe "group of tests for avion" {
 
   test "pepita has initial energy" {
     assert.equals(100, pepita.energy())
