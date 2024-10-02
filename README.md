@@ -5,10 +5,10 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 ## Equipo de desarrollo: 
 
 - Ezequiel Reichel
-- Camila Ramos
+- Camila Nicól Ramos Fariña
 - Catalina Wierna
-- Gabriel ...
-- Gonzalo Bolana
+- Gabriel Juarez
+- Gonzalo Leon Bolaña
  
 ## Capturas 
 
