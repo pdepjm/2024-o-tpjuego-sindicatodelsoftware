@@ -3,21 +3,40 @@ import wollok.game.*
 import avion.*
 
 program PlaneFight {
-	game.title("Juego")
+	
+	game.title("Plane Fight")
 	game.height(10)
 	game.width(20)
 	game.cellSize(100)
 	game.boardGround("sky1.png") // Fondo del juego
 
 	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
-	
 	game.addVisual(enemigo) 
 	game.addVisual(pepita) 
 
+	game.whenCollideDo(avion, { elemento => 
+    if (elemento.esEnemigo()) 
+		avion.perderVida()
+	
+		})
+	
+	//Disparo del personaje
+	keyboard.space().onPressDo({
+	const nuevaBala = new Bala(position=avion.position())
+    game.addVisual(nuevaBala)
+	game.onTick(100,"disparo",{nuevaBala.moveteDerecha()})
+	})
 	//const enemigo = new Enemigo()
 	//game.onTick(4000, "spawnEnemigo", {const enemigo = new Enemigo()})
 
 	game.onTick(1000, "movimiento", { enemigo.movete() }) // cada 1 segundo el enemigo se mueve
+
+	//Disparo del enemigo
+	game.onTick(500, "disparoEnemigo", { 
+		const nuevaBala = new Bala(position=enemigo.position())
+        game.addVisual(nuevaBala)
+	    game.onTick(100,"disparoEnemigo",{nuevaBala.moveteIzquierda()})
+	}) 
 
 	keyboard.w().onPressDo({ pepita.fly(1) })
 
