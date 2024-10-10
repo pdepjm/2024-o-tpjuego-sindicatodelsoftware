@@ -3,7 +3,7 @@ import wollok.game.*
 import avion.*
 
 program PlaneFight {
-	
+	//var cantidadMaxEnemigos = x
 	game.title("Plane Fight")
 	game.height(10)
 	game.width(20)
@@ -11,38 +11,58 @@ program PlaneFight {
 	game.boardGround("sky1.png") // Fondo del juego
 
 	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
-	game.addVisual(enemigo) 
-	game.addVisual(pepita) 
+	game.addVisual(enemigoCuarpoACuerpo) 
+	game.addVisual(enemigoPistolero)
 
+//SOBRE EL PRSONAJE-----------------------------------------------------------------------
+const imamgenBalaPersonaje = "spaceMissiles_015.png"
+//COALICIONES
 	game.whenCollideDo(avion, { elemento => 
     if (elemento.esEnemigo()) 
+	    if(elemento.esCuarpoACuerpo()){
+			elemento.reaparecerAlaDerecha()
+		}
+		else if (elemento.esBala()){
+			game.removeVisual(elemento)
+		}
 		avion.perderVida()
-	
-		})
-	
-	//Disparo del personaje
+	})
+//DISPARO
 	keyboard.space().onPressDo({
-	const nuevaBala = new Bala(position=avion.position())
+	const nuevaBala = new Bala(position=avion.position() , imagen = imamgenBalaPersonaje, esEnemigo=false)
     game.addVisual(nuevaBala)
 	game.onTick(100,"disparo",{nuevaBala.moveteDerecha()})
+	game.whenCollideDo(nuevaBala, {elemento => 
+	nuevaBala.quitarVida(elemento)
+	if (elemento.esEnemigo()){ //Esto lo podemos hacer en un metodo de la bala directamente
+	game.removeVisual(nuevaBala)
+	if(elemento.vida()==0){
+		game.removeVisual(elemento)
+	}
+	}})
 	})
-	//const enemigo = new Enemigo()
-	//game.onTick(4000, "spawnEnemigo", {const enemigo = new Enemigo()})
-
-	game.onTick(1000, "movimiento", { enemigo.movete() }) // cada 1 segundo el enemigo se mueve
-
-	//Disparo del enemigo
-	game.onTick(500, "disparoEnemigo", { 
-		const nuevaBala = new Bala(position=enemigo.position())
-        game.addVisual(nuevaBala)
-	    game.onTick(100,"disparoEnemigo",{nuevaBala.moveteIzquierda()})
-	}) 
-
-	keyboard.w().onPressDo({ pepita.fly(1) })
-
+//DIALOGOS
 	keyboard.h().onPressDo({game.say(avion,avion.hablar())})
 
 	keyboard.v().onPressDo({game.say(avion,avion.decirVida().toString())})
+	
+
+
+//SOBRE ENEMIGOS --------------------------------------------------------------------------------
+//MOVIMIENTO CUERPO A CUERPO
+	game.onTick(enemigoCuarpoACuerpo.velocidad(), "movimiento", { enemigoCuarpoACuerpo.movete() }) // cada 1 segundo el enemigo se mueve
+
+//DISPARO
+const imagenBalaPistolero = "spaceMissiles_015.png"
+
+	game.onTick(enemigoPistolero.intervaloDisparo(), "disparoEnemigo", { 
+		if (enemigoPistolero.vida()>0){
+        const nuevaBala = new Bala(position=enemigoPistolero.position(), imagen=imagenBalaPistolero, esEnemigo=true)
+        game.addVisual(nuevaBala)
+        game.onTick(enemigoPistolero.velocidadDisparo(), "disparoEnemigo", { nuevaBala.moveteIzquierda() })
+		}
+	}) 
+
 
 	game.start()
 }
