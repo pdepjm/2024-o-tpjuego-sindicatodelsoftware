@@ -35,5 +35,5 @@ El objetivo del personaje es la superviviencia en contra de los enemigos que vay
 
 ## Controles:
 
-- `W` para...
-
+- `space` para que el personaje principal dispare proyectiles
+- `V` para visualizar la vida del personaje principal

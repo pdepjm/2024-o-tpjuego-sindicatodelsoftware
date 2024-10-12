@@ -16,6 +16,7 @@ program PlaneFight {
 
 //SOBRE EL PRSONAJE-----------------------------------------------------------------------
 const imamgenBalaPersonaje = "spaceMissiles_015.png"
+
 //COALICIONES
 	game.whenCollideDo(avion, { elemento => 
     if (elemento.esEnemigo()) 
@@ -27,6 +28,8 @@ const imamgenBalaPersonaje = "spaceMissiles_015.png"
 		}
 		avion.perderVida()
 	})
+
+
 //DISPARO
 	keyboard.space().onPressDo({
 	const nuevaBala = new Bala(position=avion.position() , imagen = imamgenBalaPersonaje, esEnemigo=false)
@@ -41,6 +44,7 @@ const imamgenBalaPersonaje = "spaceMissiles_015.png"
 	}
 	}})
 	})
+
 //DIALOGOS
 	keyboard.h().onPressDo({game.say(avion,avion.hablar())})
 
@@ -49,11 +53,12 @@ const imamgenBalaPersonaje = "spaceMissiles_015.png"
 
 
 //SOBRE ENEMIGOS --------------------------------------------------------------------------------
+
 //MOVIMIENTO CUERPO A CUERPO
 	game.onTick(enemigoCuarpoACuerpo.velocidad(), "movimiento", { enemigoCuarpoACuerpo.movete() }) // cada 1 segundo el enemigo se mueve
 
 //DISPARO
-const imagenBalaPistolero = "spaceMissiles_015.png"
+const imagenBalaPistolero = "bala_Enemigo.png"
 
 	game.onTick(enemigoPistolero.intervaloDisparo(), "disparoEnemigo", { 
 		if (enemigoPistolero.vida()>0){

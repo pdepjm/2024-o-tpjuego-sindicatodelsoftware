@@ -4,15 +4,33 @@ object avion {
   
   var property position = new MutablePosition(x=0,y=8)
 
+  var property enemigosEliminados = 0
+
   method image() = "cuphead.png"
 
   method hablar() = "Bienvenidos a mi juego..." 
 
   method decirVida() = self.vida()
 
-  method perderVida() {vida -= 1} //Hay que aplicarle como minimo 0
+  method perderVida() {
+    vida -= 1             //Hay que aplicarle como minimo 0
 
+    if(self.vida() == 0){
+      //game.removeVisual(self)
+      game.addVisual(finDelJuego)
+    }
+
+    }                             
 }
+
+object finDelJuego {
+
+  method position() = game.center()
+
+  method text() = "¡Game Over!"
+}
+
+
 
 object enemigoCuarpoACuerpo {
 
@@ -36,6 +54,11 @@ object enemigoCuarpoACuerpo {
 
   method movete(){  // se desplaza uno para la izquierda
     position = position.left(1)
+
+    if(position.x() < 0) {
+      self.reaparecerAlaDerecha()
+    }
+
   }
   
   method perderVida() {vida -= 1}
