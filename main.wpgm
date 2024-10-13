@@ -11,11 +11,9 @@ program PlaneFight {
 	game.boardGround("sky1.png") // Fondo del juego
 
 	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
-	game.addVisual(enemigoCuarpoACuerpo) 
-	game.addVisual(enemigoPistolero)
+	
 
 //SOBRE EL PRSONAJE-----------------------------------------------------------------------
-const imamgenBalaPersonaje = "spaceMissiles_015.png"
 
 //COALICIONES
 	game.whenCollideDo(avion, { elemento => 
@@ -32,42 +30,32 @@ const imamgenBalaPersonaje = "spaceMissiles_015.png"
 
 //DISPARO
 	keyboard.space().onPressDo({
-	const nuevaBala = new Bala(position=avion.position() , imagen = imamgenBalaPersonaje, esEnemigo=false)
-    game.addVisual(nuevaBala)
-	game.onTick(100,"disparo",{nuevaBala.moveteDerecha()})
-	game.whenCollideDo(nuevaBala, {elemento => 
-	nuevaBala.quitarVida(elemento)
-	if (elemento.esEnemigo()){ //Esto lo podemos hacer en un metodo de la bala directamente
-	game.removeVisual(nuevaBala)
-	if(elemento.vida()==0){
-		game.removeVisual(elemento)
-	}
-	}})
+	avion.disparar()
 	})
 
 //DIALOGOS
 	keyboard.h().onPressDo({game.say(avion,avion.hablar())})
 
 	keyboard.v().onPressDo({game.say(avion,avion.decirVida().toString())})
+
+	keyboard.p().onPressDo({game.say(avion,avion.decirPuntos().toString())})
 	
 
 
 //SOBRE ENEMIGOS --------------------------------------------------------------------------------
-
-//MOVIMIENTO CUERPO A CUERPO
-	game.onTick(enemigoCuarpoACuerpo.velocidad(), "movimiento", { enemigoCuarpoACuerpo.movete() }) // cada 1 segundo el enemigo se mueve
-
-//DISPARO
-const imagenBalaPistolero = "bala_Enemigo.png"
-
-	game.onTick(enemigoPistolero.intervaloDisparo(), "disparoEnemigo", { 
-		if (enemigoPistolero.vida()>0){
-        const nuevaBala = new Bala(position=enemigoPistolero.position(), imagen=imagenBalaPistolero, esEnemigo=true)
-        game.addVisual(nuevaBala)
-        game.onTick(enemigoPistolero.velocidadDisparo(), "disparoEnemigo", { nuevaBala.moveteIzquierda() })
-		}
-	}) 
+  
 
 
 	game.start()
+
+	game.onTick(fase.tiempoAparicion(),"Aparicion enemigos de la Fase",{
+		if (fase.enemigosEliminadosFase() > fase.eliminacionesCambioFase()){
+			fase.cambiarFase()
+		}
+		if(fase.maxEnemigos() > fase.enemigosVivos()){
+			//Agrego enemigos
+			fase.agregarPistolero()
+		    fase.agregarCuerpoACuerpo() 
+		}
+	})
 }
