@@ -64,7 +64,11 @@ class EnemigoCuarpoACuerpo {
   method reaparecerAlaDerecha() {position = game.at(18,0.randomUpTo(10))}
 
   method despalzamiento(){
-    game.onTick(self.velocidad(), "movimiento", { self.movete() })
+    game.onTick(self.velocidad(), "movimiento", { 
+    if (self.vida()>0) {
+    self.movete() 
+    }
+    })
   }
 
   method movete(){  // se desplaza uno para la izquierda
@@ -112,6 +116,7 @@ class EnemigoPistolero {
   method noPuedeDisparar(){puedeDisparar=false} 
 
   method disparar(){
+    
     game.onTick(self.intervaloDisparo(), "disparoEnemigo", { 
       if (self.vida()>0) {
       const nuevaBala = new Bala(position=self.position(), imagen=imagenBalaPistolero, esEnemigo=true)
