@@ -15,7 +15,7 @@ program PlaneFight {
 
 //SOBRE EL PRSONAJE-----------------------------------------------------------------------
 
-//COALICIONES
+//COLICIONES
 	game.whenCollideDo(avion, { elemento => 
     if (elemento.esEnemigo()) 
 	    if(elemento.esCuarpoACuerpo()){
@@ -49,7 +49,7 @@ program PlaneFight {
 	game.start()
 
 	game.onTick(fase.tiempoAparicion(),"Aparicion enemigos de la Fase",{
-		if (fase.enemigosEliminadosFase() > fase.eliminacionesCambioFase()){
+		if (fase.enemigosEliminadosFase() > fase.eliminacionesCambioFase()){ //los enemigos eliminados por fase son los matados, que se comparan con la cantidad necesaria para cambiar de fase
 			fase.cambiarFase()
 		}
 		if(fase.maxEnemigos() > fase.enemigosVivos()){

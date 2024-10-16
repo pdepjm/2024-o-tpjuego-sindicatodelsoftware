@@ -1,9 +1,34 @@
 import avion.*
 
-describe "group of tests for avion" {
+describe "Test de matar un enemigo" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
+  test "Sumar 5 al matar un enemigo cuerpo a cuerpo" {
+    const nuevoEnemigoCuerpo = new EnemigoCuerpoACuerpo()
+    nuevoEnemigoCuerpo.perderVida()
+    nuevoEnemigoCuerpo.perderVida()
+    nuevoEnemigoCuerpo.perderVida()
+    nuevoEnemigoCuerpo.perderVida()
+    nuevoEnemigoCuerpo.perderVida()
+    assert.equals(5, avion.puntaje())
   }
 
+  test "Sumar 7 al matar un enemigo pistolero" {
+    const nuevoEnemigoPistola = new EnemigoPistolero()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    nuevoEnemigoPistola.perderVida()
+    assert.equals(7, avion.puntaje())
+  }
+  
+  test "Restar vida al avion cuando nos impacta una bala" {
+    const nuevoEnemigoPistola = new EnemigoPistolero() 
+    const nuevaBala = new Bala(position=nuevoEnemigoPistola.position(), imagen="bala_Enemigo.png", esEnemigo=true)
+    nuevaBala.position(){avion.position()}
+    game.whenCollideDo(avion, { elemento => if (elemento.esEnemigo()) avion.perderVida() })
+    assert.that(avion.vida() < 3)
+  }
 }
