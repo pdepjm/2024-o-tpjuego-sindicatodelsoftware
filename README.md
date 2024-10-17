@@ -15,7 +15,7 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 ![pepita](assets/golondrina.png)
 
 Diagrama estatico
-![pepita](assets/Diagrama Estatico (1).png)
+![pepita](assets/DiagramaEstatico(1).png)
 
 ## Reglas de Juego / Instrucciones
 
