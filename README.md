@@ -14,6 +14,9 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 
 ![pepita](assets/golondrina.png)
 
+Diagrama estatico
+![pepita](assets/DiagramaEstatico(1).png)
+
 ## Reglas de Juego / Instrucciones
 
 El juego "Plane Fight" se basa en el combate aereo del *personaje principal* contra una serie de enemigos que pueden hacerte dano de distinta manera (por ejemplo, enemigos con misiles y otros que ataquen cuerpo a cuerpo). El personaje principal posee vida (p.e 3 corazones) y los enemigos tambien tendran su correspondiente cantidad de vida, ambos objetos entienden/conocen el mensaje de perderVida pero cada uno tiene su metodo correspondiente (se aplica polimorfismo). 
