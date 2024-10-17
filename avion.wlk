@@ -230,7 +230,7 @@ object fase {
   
   method agregarCuerpoACuerpo () {
     if (nroFase == 1 or nroFase==3){
-    const nuevoEnemigoCuerpo = new EnemigoCuarpoACuerpo(id = 0.randomUpTo(5000))
+    const nuevoEnemigoCuerpo = new EnemigoCuerpoACuerpo(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoCuerpo)
     self.sumarEnemigosVivos()
     nuevoEnemigoCuerpo.despalzamiento()
