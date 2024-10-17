@@ -3,14 +3,12 @@ import wollok.game.*
 import avion.*
 
 program PlaneFight {
-	//var cantidadMaxEnemigos = x
 	game.title("Plane Fight")
 	game.height(10)
 	game.width(20)
 	game.cellSize(100)
-	game.boardGround("sky1.png") // Fondo del juego
-
-	game.addVisualCharacter(avion) //Para que se pueda mover con las flechas (personaje principal)
+	game.boardGround("sky1.png") 
+	game.addVisualCharacter(avion) 
 	
 
 //SOBRE EL PRSONAJE-----------------------------------------------------------------------
@@ -22,6 +20,7 @@ program PlaneFight {
 			elemento.reaparecerAlaDerecha()
 		}
 		else if (elemento.esBala()){
+			game.removeTickEvent("disparoEnemigo2"+elemento.id())
 			game.removeVisual(elemento)
 		}
 		avion.perderVida()
@@ -41,13 +40,11 @@ program PlaneFight {
 	keyboard.p().onPressDo({game.say(avion,avion.decirPuntos().toString())})
 	
 
+    
+
+
 
 //SOBRE ENEMIGOS --------------------------------------------------------------------------------
-  
-
-
-	game.start()
-
 	game.onTick(fase.tiempoAparicion(),"Aparicion enemigos de la Fase",{
 		if (fase.enemigosEliminadosFase() > fase.eliminacionesCambioFase()){
 			fase.cambiarFase()
@@ -58,4 +55,6 @@ program PlaneFight {
 		    fase.agregarCuerpoACuerpo() 
 		}
 	})
+
+	game.start()
 }

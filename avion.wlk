@@ -4,6 +4,7 @@ object avion {
   var property position = new MutablePosition(x=0,y=8)
   var property enemigosEliminados = 0
   var property puntaje = 0
+  var property esEnemigo = false
   const imamgenBalaPersonaje = "spaceMissiles_015.png"
 
   method image() = "cuphead.png"
@@ -26,14 +27,15 @@ object avion {
   }
 
   method disparar()  {
-  const nuevaBala = new Bala(position=self.position() , imagen = imamgenBalaPersonaje, esEnemigo=false)
+  const nuevaBala = new Bala(latitud=self.position().x(), altura =self.position().y() , imagen = imamgenBalaPersonaje, esEnemigo=false, id = 0.randomUpTo(5000))
   game.addVisual(nuevaBala)
-	game.onTick(100,"disparo",{nuevaBala.moveteDerecha()})
+	game.onTick(100,"disparo"+nuevaBala.id(),{nuevaBala.moveteDerecha()})
 	game.whenCollideDo(nuevaBala, {elemento => 
-	nuevaBala.quitarVida(elemento)
-	if (elemento.esEnemigo() && elemento.esBala().negate()){ //Esto lo podemos hacer en un metodo de la bala directamente
-	game.removeVisual(nuevaBala)
-	}})
+	if (elemento.esEnemigo() && elemento.esBala().negate()){
+  elemento.perderVida()
+  nuevaBala.eliminarBala()
+	}
+  })
 	}  
                          
 }
@@ -51,28 +53,25 @@ class EnemigoCuarpoACuerpo {
   var property puntaje = 5
   method esCuarpoACuerpo() = true
   var property esBala = false
-  var property position = game.at(19,0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
+  var property position = new MutablePosition(x=19,y=0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
   var property velocidad = 1000
   var property vida = 5
   var property esEnemigo = true
+  var property id 
 
   method cambiarVelocidad() {velocidad -= 100} //Hay que pensar un minimo
 
   method image() = "alienQueSeMueve.png"
 
 
-  method reaparecerAlaDerecha() {position = game.at(18,0.randomUpTo(10))}
+  method reaparecerAlaDerecha() {position = new MutablePosition(x=18,y=0.randomUpTo(10))}
 
   method despalzamiento(){
-    game.onTick(self.velocidad(), "movimiento", { 
-    if (self.vida()>0) {
-    self.movete() 
-    }
-    })
+    game.onTick(self.velocidad(), "movimiento"+self.id(), { self.movete() })
   }
 
   method movete(){  // se desplaza uno para la izquierda
-    position = position.left(1)
+    position.goLeft(1)
 
     if(position.x() < 0) {
       self.reaparecerAlaDerecha()
@@ -81,14 +80,12 @@ class EnemigoCuarpoACuerpo {
   }
   
     method perderVida() { 
-    
-      vida -= 1
-  
+    vida -= 1
     if(self.vida()==0) {
-      vida -= 1
       avion.sumarPuntaje(self)
       fase.sacarEnemigosVivos()
       fase.sumarEliminados(self)
+      game.removeTickEvent("movimiento"+self.id())
       game.removeVisual(self)
     }
   }
@@ -104,8 +101,9 @@ class EnemigoPistolero {
   var property intervaloDisparo = 1500
   var property velocidadDisparo = 250 
   var property esEnemigo = true
-  var property puedeDisparar = true
   var property puntaje = 7
+  var property id 
+
   
   method cambiarIntervaloDisparo() {intervaloDisparo -= 100} //Hay que pensar un minimo
 
@@ -113,28 +111,23 @@ class EnemigoPistolero {
 
   method image() = "alienQueDispara.png"
 
-  method noPuedeDisparar(){puedeDisparar=false} 
-
   method disparar(){
     
-    game.onTick(self.intervaloDisparo(), "disparoEnemigo", { 
-      if (self.vida()>0) {
-      const nuevaBala = new Bala(position=self.position(), imagen=imagenBalaPistolero, esEnemigo=true)
+    game.onTick(self.intervaloDisparo(), "disparoEnemigo1"+self.id(), { 
+      const nuevaBala = new Bala(latitud=self.position().x(), altura =self.position().y() , imagen=imagenBalaPistolero, esEnemigo=true,id = 0.randomUpTo(5000) )
       game.addVisual(nuevaBala)
-      game.onTick(self.velocidadDisparo(), "disparoEnemigo", { nuevaBala.moveteIzquierda() })
-      }
-	}) 
+      game.onTick(self.velocidadDisparo(), "disparoEnemigo2"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+    }) 
 		
   }
 
   method perderVida() { 
     vida -= 1
-  
     if(self.vida()==0) {
-      vida -= 1
       avion.sumarPuntaje(self)
       fase.sacarEnemigosVivos()
       fase.sumarEliminados(self)
+      game.removeTickEvent("disparoEnemigo1"+self.id())
       game.removeVisual(self)
     }
   }
@@ -144,29 +137,40 @@ class EnemigoPistolero {
 
 class Bala {
   var property esCuarpoACuerpo = false
-  var property position 
+  var property latitud
+  var property altura
+  var property position = new MutablePosition(x=latitud,y=altura)
   var property imagen  
   var property esEnemigo 
   var property esBala = true
+  var property id 
 
   method image() = imagen
-
-  method quitarVida(elemento)=elemento.perderVida()
 
   method perderVida() = true
 
   method vida () = 3
 
+  method eliminarBala(){
+    position = new MutablePosition(x=100,y=100)
+    game.removeTickEvent("disparo"+self.id())
+    game.removeVisual(self)
+  }
   method moveteDerecha() {
-    position = position.right(1)
-    if(position.x() > 20) {
-      game.removeVisual(self)
+    if(position.x() < 20) {
+      position.goRight(1)
+    }
+    else {
+      self.eliminarBala()
     }
   }
 
   method moveteIzquierda(){
-    position = position.left(1)
-    if(position.x() < 0) {
+    if(position.x() > 0) {
+      position.goLeft(1)
+    }
+    else {
+      game.removeTickEvent("disparoEnemigo2"+self.id())
       game.removeVisual(self)
     }
   }
@@ -176,9 +180,10 @@ object fase {
   var property tiempoAparicion = 4000
   var property maxEnemigos = 6  
   var property enemigosVivos = 0
-  var property nroFase = 1
+  var property nroFase = 2
   var property eliminacionesCambioFase = 10
   var property enemigosEliminadosFase = 0
+
 
   method sumarEliminado() {
     enemigosEliminadosFase += 1
@@ -206,10 +211,12 @@ object fase {
       self.reiniciarEliminados()
     }
     else {
-      //TODO cambiar el tiempo de aparicion
-      //TODO cambiar el nro max de enemigos
-      //TODO cambiar velocidad de disparo y movimiento de los enemigos
-      nroFase = 1
+      //TODO
+      /*La idea es que cuando se mate al boss (enemigo de la fase 4) se aumente la dificultad haciendo lo siguiente:
+      -cambiar el tiempo de aparicion
+      -cambiar el nro max de enemigos
+      -cambiar velocidad de disparo y movimiento de los enemigos
+      nroFase = 1*/
     }
   }
 
@@ -223,7 +230,7 @@ object fase {
   
   method agregarCuerpoACuerpo () {
     if (nroFase == 1 or nroFase==3){
-    const nuevoEnemigoCuerpo = new EnemigoCuarpoACuerpo()
+    const nuevoEnemigoCuerpo = new EnemigoCuarpoACuerpo(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoCuerpo)
     self.sumarEnemigosVivos()
     nuevoEnemigoCuerpo.despalzamiento()
@@ -232,7 +239,7 @@ object fase {
 
   method agregarPistolero (){
     if (nroFase == 2 or nroFase==3){
-    const nuevoEnemigoPistolero = new EnemigoPistolero()
+    const nuevoEnemigoPistolero = new EnemigoPistolero(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoPistolero)
     self.sumarEnemigosVivos()
     nuevoEnemigoPistolero.disparar()
