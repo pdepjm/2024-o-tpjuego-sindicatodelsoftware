@@ -44,12 +44,13 @@ object finDelJuego {
 
   method position() = game.center()
 
-  method text() = "¡Game Over!"
+  method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
+
 }
 
 
 
-class EnemigoCuarpoACuerpo {
+class EnemigoCuerpoACuerpo {
   var property puntaje = 5
   method esCuarpoACuerpo() = true
   var property esBala = false
@@ -59,7 +60,7 @@ class EnemigoCuarpoACuerpo {
   var property esEnemigo = true
   var property id 
 
-  method cambiarVelocidad() {velocidad -= 100} //Hay que pensar un minimo
+  method cambiarVelocidad() {velocidad = 100.min(velocidad-100)} //Hay que pensar un minimo (pensamos 100)
 
   method image() = "alienQueSeMueve.png"
 
@@ -76,7 +77,6 @@ class EnemigoCuarpoACuerpo {
     if(position.x() < 0) {
       self.reaparecerAlaDerecha()
     }
-
   }
   
     method perderVida() { 
@@ -89,7 +89,6 @@ class EnemigoCuarpoACuerpo {
       game.removeVisual(self)
     }
   }
-  
 }
 
 class EnemigoPistolero {
@@ -105,7 +104,7 @@ class EnemigoPistolero {
   var property id 
 
   
-  method cambiarIntervaloDisparo() {intervaloDisparo -= 100} //Hay que pensar un minimo
+  method cambiarIntervaloDisparo() {intervaloDisparo = 100.min(intervaloDisparo-250)} //Hay que pensar un minimo (pensamos 100)
 
   method cambiarVelocidadDisparo() {velocidadDisparo -=25}
 
@@ -177,7 +176,7 @@ class Bala {
 }
 
 object fase {
-  var property tiempoAparicion = 4000
+  var property tiempoAparicion = 4000 //miliseg
   var property maxEnemigos = 6  
   var property enemigosVivos = 0
   var property nroFase = 2
@@ -192,6 +191,7 @@ object fase {
   method reiniciarEliminados(){
     enemigosEliminadosFase = 0
   }
+  
   method sumarEliminados(enemigo){
     if(nroFase == 1  && enemigo.esCuarpoACuerpo()){
       self.sumarEliminado()
@@ -221,8 +221,8 @@ object fase {
   }
 
   method cambiarTiempoAparicion() {
-    if(tiempoAparicion > 1000) tiempoAparicion -= 100
-    }
+    if(tiempoAparicion > 1000) tiempoAparicion -= 1000
+  }
   
   method cambiarEnemigosMax(){
     if(maxEnemigos<15) maxEnemigos += 3
@@ -235,9 +235,10 @@ object fase {
     self.sumarEnemigosVivos()
     nuevoEnemigoCuerpo.despalzamiento()
     }
+
   }
 
-  method agregarPistolero (){
+  method agregarPistolero (){ //el ovni 
     if (nroFase == 2 or nroFase==3){
     const nuevoEnemigoPistolero = new EnemigoPistolero(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoPistolero)
@@ -246,7 +247,7 @@ object fase {
   }
   }
 
-  method sumarEnemigosVivos() {
+  method sumarEnemigosVivos() { 
     enemigosVivos += 1
   }
 
