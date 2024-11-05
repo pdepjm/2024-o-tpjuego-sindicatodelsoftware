@@ -42,8 +42,14 @@ object avion {
 
 object finDelJuego {
 
+  //const posicionX = (game.width() * 100) / 2
+	//const posicionY = (game.height() * 100) / 2
+
+  //method position() = game.at(posicionX,posicionY)
   method position() = game.center()
 
+  method image() = "game_over.jpg"
+  
   method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
 
 }
@@ -52,7 +58,7 @@ object finDelJuego {
 
 class EnemigoCuerpoACuerpo {
   var property puntaje = 5
-  method esCuarpoACuerpo() = true
+  method esCuerpoACuerpo() = true
   var property esBala = false
   var property position = new MutablePosition(x=19,y=0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
   var property velocidad = 1000
@@ -93,7 +99,7 @@ class EnemigoCuerpoACuerpo {
 
 class EnemigoPistolero {
   const imagenBalaPistolero = "bala_Enemigo.png"
-  method esCuarpoACuerpo() = false
+  method esCuerpoACuerpo() = false
   var property position = game.at(17,0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
   var property vida = 3
   var property esBala = false
@@ -135,7 +141,7 @@ class EnemigoPistolero {
 
 
 class Bala {
-  var property esCuarpoACuerpo = false
+  var property esCuerpoACuerpo = false
   var property latitud
   var property altura
   var property position = new MutablePosition(x=latitud,y=altura)
@@ -177,9 +183,9 @@ class Bala {
 
 object fase {
   var property tiempoAparicion = 4000 //miliseg
-  var property maxEnemigos = 6  
+  var property maxEnemigos = 4 
   var property enemigosVivos = 0
-  var property nroFase = 2
+  var property nroFase = 1
   var property eliminacionesCambioFase = 10
   var property enemigosEliminadosFase = 0
 
@@ -193,10 +199,10 @@ object fase {
   }
   
   method sumarEliminados(enemigo){
-    if(nroFase == 1  && enemigo.esCuarpoACuerpo()){
+    if(nroFase == 1  && enemigo.esCuerpoACuerpo()){
       self.sumarEliminado()
     }
-    else if(nroFase==2 && enemigo.esCuarpoACuerpo().negate()){
+    else if(nroFase==2 && enemigo.esCuerpoACuerpo().negate()){
       self.sumarEliminado()
     }
     else {

@@ -3,7 +3,7 @@ import avion.*
 describe "Test de matar un enemigo" {
 
   test "Sumar 5 al matar un enemigo cuerpo a cuerpo" {
-    const nuevoEnemigoCuerpo = new EnemigoCuerpoACuerpo()
+    const nuevoEnemigoCuerpo = new EnemigoCuerpoACuerpo(id = 1)
     nuevoEnemigoCuerpo.perderVida()
     nuevoEnemigoCuerpo.perderVida()
     nuevoEnemigoCuerpo.perderVida()
@@ -13,7 +13,7 @@ describe "Test de matar un enemigo" {
   }
 
   test "Sumar 7 al matar un enemigo pistolero" {
-    const nuevoEnemigoPistola = new EnemigoPistolero()
+    const nuevoEnemigoPistola = new EnemigoPistolero(id = 2)
     nuevoEnemigoPistola.perderVida()
     nuevoEnemigoPistola.perderVida()
     nuevoEnemigoPistola.perderVida()
@@ -25,8 +25,8 @@ describe "Test de matar un enemigo" {
   }
   
   test "Restar vida al avion cuando nos impacta una bala" {
-    const nuevoEnemigoPistola = new EnemigoPistolero() 
-    const nuevaBala = new Bala(position=nuevoEnemigoPistola.position(), imagen="bala_Enemigo.png", esEnemigo=true)
+    const nuevoEnemigoPistola = new EnemigoPistolero(id = 3)
+    const nuevaBala = new Bala(latitud=avion.position().x(), altura =avion.position().y() , imagen="bala_Enemigo.png", esEnemigo=true,id = 0.randomUpTo(5000) )
     nuevaBala.position(){avion.position()}
     game.whenCollideDo(avion, { elemento => if (elemento.esEnemigo()) avion.perderVida() })
     assert.that(avion.vida() < 3)

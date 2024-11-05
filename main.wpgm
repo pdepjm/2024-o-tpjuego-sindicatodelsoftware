@@ -16,7 +16,7 @@ program PlaneFight {
 //COLICIONES
 	game.whenCollideDo(avion, { elemento => 
     if (elemento.esEnemigo()) 
-	    if(elemento.esCuarpoACuerpo()){
+	    if(elemento.esCuerpoACuerpo()){
 			elemento.reaparecerAlaDerecha()
 		}
 		else if (elemento.esBala()){
