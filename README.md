@@ -11,7 +11,7 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 - Gonzalo Leon Bolaña
  
 ## Capturas 
-Cuphead, nuestro personaje principal -  Enemigo cuerpo a cuerpo - Enemigo a distancia:
+"Cuphead" - Enemigo cuerpo a cuerpo - Enemigo a distancia:
 
 ![pepita](assets/cuphead.png) ![pepita](assets/alienQueSeMueve.png) ![pepita](assets/alienQueDispara.png)
 
