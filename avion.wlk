@@ -16,10 +16,15 @@ object avion {
   method decirPuntos() = self.puntaje()
 
   method sumarPuntaje(enemigo){puntaje+=enemigo.puntaje()}
+  
+  method agregarCorazones(c0,c1,c2) {
+    game.addVisual(c0)
+	  game.addVisual(c1)
+	  game.addVisual(c2) 
+  }
 
   method perderVida() {
     vida -= 1             //Hay que aplicarle como minimo 0
-
     if(self.vida() == 0){
       game.removeVisual(self)
       game.addVisual(fondoFinDelJuego)
@@ -42,6 +47,17 @@ object avion {
                          
 }
 
+class Corazon {
+  const id
+  var property esBala = false
+  var property esEnemigo = false
+  
+  method esCuerpoACuerpo() = false
+  method image() = "heart_21 (2).png"
+  method position() = new MutablePosition(x=id,y=10)
+  method desaparecer() =  game.removeVisual(self) 
+}
+
 object fondoFinDelJuego {
 
   //const posicionX = (game.width() * 100) / 2
@@ -50,8 +66,12 @@ object fondoFinDelJuego {
   //method position() = game.at(posicionX,posicionY)
   method position() = game.origin()
 
-  method image() = "game_over.jpg"
+  method image() = "game over.png"
   
+}
+
+object paleta {
+  const property rojo = "FF0000FF"
 }
 
 object finDelJuego {
@@ -59,6 +79,8 @@ object finDelJuego {
   method position() = game.center()
 
   method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
+
+  method textColor() = paleta.rojo()
 }
 
 object sonidoGameOver {
@@ -77,7 +99,7 @@ class EnemigoCuerpoACuerpo {
   var property esEnemigo = true
   var property id 
 
-  method cambiarVelocidad() {velocidad = 100.max(velocidad-100)} //Hay que pensar un minimo (pensamos 100)
+  method cambiarVelocidad() {velocidad = 100.max(velocidad-50)} //Hay que pensar un minimo (pensamos 100)
 
   method image() = "alienQueSeMueve.png"
 
@@ -114,16 +136,16 @@ class EnemigoPistolero {
   var property position = game.at(17,0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
   var property vida = 3
   var property esBala = false
-  var property intervaloDisparo = 1500      // mientras menos, el intervalo entre cada bala es mas rapido
+  var property intervaloDisparo = 2000      // mientras menos, el intervalo entre cada bala es mas rapido
   var property velocidadDisparo = 250       // mientras menos, la velocidad de las balas es mas rapida
   var property esEnemigo = true
   var property puntaje = 7
   var property id 
 
   
-  method cambiarIntervaloDisparo() {intervaloDisparo = 100.max(intervaloDisparo-250)} //Hay que pensar un minimo (pensamos 100)
+  method cambiarIntervaloDisparo() {intervaloDisparo = 1000.max(intervaloDisparo-100)} //Hay que pensar un minimo (pensamos 100)
 
-  method cambiarVelocidadDisparo() {velocidadDisparo -=25}
+  method cambiarVelocidadDisparo() {velocidadDisparo = 100.max(velocidadDisparo-25)}
 
   method image() = "alienQueDispara.png"
 
@@ -223,24 +245,17 @@ object fase {
   } 
   
   method cambiarFase() { 
-    if(nroFase < 4){
+    if(nroFase < 3){
       nroFase += 1
       self.reiniciarEliminados()
     }
     else {
-      //TODO
-      /*La idea es que cuando se mate al boss (enemigo de la fase 4) se aumente la dificultad haciendo lo siguiente:
-      -cambiar el tiempo de aparicion
-      -cambiar el nro max de enemigos
-      -cambiar velocidad de disparo y movimiento de los enemigos
-      nroFase = 1*/
-
       self.cambiarTiempoAparicion()
       self.cambiarEnemigosMax()
 
       EnemigoCuerpoACuerpo.cambiarVelocidad()
       EnemigoPistolero.cambiarIntervaloDisparo()
-      EnemigoPistolero.cambiarIntervaloDisparo()
+      EnemigoPistolero.cambiarVelocidadDisparo()
 
       nroFase = 1
 
@@ -252,7 +267,7 @@ object fase {
   }
   
   method cambiarEnemigosMax(){
-    if(maxEnemigos<15) maxEnemigos += 3
+    if(maxEnemigos<12) maxEnemigos += 3
   }
   
   method agregarCuerpoACuerpo () {

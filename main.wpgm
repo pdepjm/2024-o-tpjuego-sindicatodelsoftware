@@ -3,17 +3,23 @@ import wollok.game.*
 import avion.*
 
 program PlaneFight {
+	
 	game.title("Plane Fight")
 	game.height(10)
 	game.width(20)
 	game.cellSize(100)
-	game.boardGround("sky1.png") 
-	game.addVisualCharacter(avion) 
+	game.boardGround("sky1.png")
+	game.addVisualCharacter(avion)
+	const corazon0 = new Corazon(id=0)
+	const corazon1 = new Corazon(id=1)
+    const corazon2 = new Corazon(id=2)
+	avion.agregarCorazones(corazon0,corazon1,corazon2)
 	
 
-//SOBRE EL PRSONAJE-----------------------------------------------------------------------
+//SOBRE EL PERSONAJE-----------------------------------------------------------------------
 
 //COLICIONES
+    var contador = 2
 	game.whenCollideDo(avion, { elemento => 
     if (elemento.esEnemigo()) 
 	    if(elemento.esCuerpoACuerpo()){
@@ -23,7 +29,10 @@ program PlaneFight {
 			game.removeTickEvent("disparoEnemigo2"+elemento.id())
 			game.removeVisual(elemento)
 		}
+
 		avion.perderVida()
+		if(contador == 2) corazon2.desaparecer() else if(contador == 1) corazon1.desaparecer() else corazon0.desaparecer() 
+		contador -= 1
 	})
 
 
