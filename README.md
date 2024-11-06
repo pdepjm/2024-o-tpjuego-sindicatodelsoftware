@@ -12,12 +12,15 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
  
 ## Capturas 
 Cuphead, nuestro personaje principal: 
+
 ![pepita](assets/cuphead.png)
 
 Enemigo cuerpo a cuerpo:
+
 ![pepita](assets/alienQueSeMueve.png)
 
 Enemigo a distancia:
+
 ![pepita](assets/alienQueDispara.png)
 
 Diagrama estatico
