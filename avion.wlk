@@ -65,12 +65,12 @@ class EnemigoCuerpoACuerpo {
   method esCuerpoACuerpo() = true
   var property esBala = false
   var property position = new MutablePosition(x=19,y=0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
-  var property velocidad = 1000
+  var property velocidad = 1000     // mientras menos velocidad, el enemigo se desplaza mas rapido
   var property vida = 5
   var property esEnemigo = true
   var property id 
 
-  method cambiarVelocidad() {velocidad = 100.min(velocidad-100)} //Hay que pensar un minimo (pensamos 100)
+  method cambiarVelocidad() {velocidad = 100.max(velocidad-100)} //Hay que pensar un minimo (pensamos 100)
 
   method image() = "alienQueSeMueve.png"
 
@@ -107,14 +107,14 @@ class EnemigoPistolero {
   var property position = game.at(17,0.randomUpTo(10))   // Para que arranque en alguna posicion del borde
   var property vida = 3
   var property esBala = false
-  var property intervaloDisparo = 1500
-  var property velocidadDisparo = 250 
+  var property intervaloDisparo = 1500      // mientras menos, el intervalo entre cada bala es mas rapido
+  var property velocidadDisparo = 250       // mientras menos, la velocidad de las balas es mas rapida
   var property esEnemigo = true
   var property puntaje = 7
   var property id 
 
   
-  method cambiarIntervaloDisparo() {intervaloDisparo = 100.min(intervaloDisparo-250)} //Hay que pensar un minimo (pensamos 100)
+  method cambiarIntervaloDisparo() {intervaloDisparo = 100.max(intervaloDisparo-250)} //Hay que pensar un minimo (pensamos 100)
 
   method cambiarVelocidadDisparo() {velocidadDisparo -=25}
 
@@ -227,6 +227,16 @@ object fase {
       -cambiar el nro max de enemigos
       -cambiar velocidad de disparo y movimiento de los enemigos
       nroFase = 1*/
+
+      self.cambiarTiempoAparicion()
+      self.cambiarEnemigosMax()
+
+      EnemigoCuerpoACuerpo.cambiarVelocidad()
+      EnemigoPistolero.cambiarIntervaloDisparo()
+      EnemigoPistolero.cambiarIntervaloDisparo()
+
+      nroFase = 1
+
     }
   }
 
