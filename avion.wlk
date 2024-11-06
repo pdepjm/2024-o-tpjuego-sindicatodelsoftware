@@ -17,19 +17,13 @@ object avion {
 
   method sumarPuntaje(enemigo){puntaje+=enemigo.puntaje()}
   
-  method agregarCorazones(c0,c1,c2) {
-    game.addVisual(c0)
-	  game.addVisual(c1)
-	  game.addVisual(c2) 
-  }
-
   method perderVida() {
     vida -= 1             //Hay que aplicarle como minimo 0
     if(self.vida() == 0){
       game.removeVisual(self)
       game.addVisual(fondoFinDelJuego)
       game.addVisual(finDelJuego)
-      sonidoGameOver.reproducirSonido()
+      //sonidoGameOver.reproducirSonido()
     }
   }
 
@@ -43,8 +37,8 @@ object avion {
   nuevaBala.eliminarBala()
 	}
   })
-	}  
-                         
+	}
+                     
 }
 
 class Corazon {
@@ -54,7 +48,7 @@ class Corazon {
   
   method esCuerpoACuerpo() = false
   method image() = "heart_21 (2).png"
-  method position() = new MutablePosition(x=id,y=10)
+  method position() = new MutablePosition(x=id,y=9)
   method desaparecer() =  game.removeVisual(self) 
 }
 
@@ -66,7 +60,7 @@ object fondoFinDelJuego {
   //method position() = game.at(posicionX,posicionY)
   method position() = game.origin()
 
-  method image() = "game over.png"
+  method image() = "finDelJuego.png"
   
 }
 
@@ -83,11 +77,11 @@ object finDelJuego {
   method textColor() = paleta.rojo()
 }
 
-object sonidoGameOver {
-  method reproducirSonido(){
-    game.sound("water-drop-sound.mp3").play()
-  }
-}
+//object sonidoGameOver {
+//  method reproducirSonido(){
+//    game.sound("water-drop-sound.mp3").play()
+//  }
+//}
 
 class EnemigoCuerpoACuerpo {
   var property puntaje = 5

@@ -13,7 +13,10 @@ program PlaneFight {
 	const corazon0 = new Corazon(id=0)
 	const corazon1 = new Corazon(id=1)
     const corazon2 = new Corazon(id=2)
-	avion.agregarCorazones(corazon0,corazon1,corazon2)
+	game.addVisual(corazon0)
+	game.addVisual(corazon1)
+	game.addVisual(corazon2)
+	//avion.agregarCorazones(corazon0,corazon1,corazon2)
 	
 
 //SOBRE EL PERSONAJE-----------------------------------------------------------------------
