@@ -24,6 +24,7 @@ object avion {
       game.removeVisual(self)
       game.addVisual(fondoFinDelJuego)
       game.addVisual(finDelJuego)
+      sonidoGameOver.reproducirSonido()
     }
   }
 
@@ -58,6 +59,12 @@ object finDelJuego {
   method position() = game.center()
 
   method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
+}
+
+object sonidoGameOver {
+  method reproducirSonido(){
+    game.sound("water-drop-sound.mp3").play()
+  }
 }
 
 class EnemigoCuerpoACuerpo {
