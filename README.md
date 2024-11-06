@@ -27,8 +27,8 @@ La dificultad del juego se incrementara a medida que se maten enemigos. Cada X c
 Al finalizar la partida (cuando el personaje principal muere) se calcula un score en base a los enemigos matados (cada enemigo tiene un puntaje distinto).
 
 ENEMIGOS: 
--Cuerpo a Cuerpo: Genera daño cuando hay una colicion.
--Disparo a distancia: Se mantiene en el borde derecho y dispara proyectiles rectos.
+- Cuerpo a Cuerpo: Genera daño cuando hay una colicion.
+- Disparo a distancia: Se mantiene en el borde derecho y dispara proyectiles rectos.
 
 El objetivo del personaje es la superviviencia en contra de los enemigos que vayan aparaciendo a lo largo del juego
 
