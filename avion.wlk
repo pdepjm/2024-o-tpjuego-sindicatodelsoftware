@@ -22,6 +22,7 @@ object avion {
 
     if(self.vida() == 0){
       game.removeVisual(self)
+      game.addVisual(fondoFinDelJuego)
       game.addVisual(finDelJuego)
     }
   }
@@ -40,21 +41,24 @@ object avion {
                          
 }
 
-object finDelJuego {
+object fondoFinDelJuego {
 
   //const posicionX = (game.width() * 100) / 2
 	//const posicionY = (game.height() * 100) / 2
 
   //method position() = game.at(posicionX,posicionY)
-  method position() = game.center()
+  method position() = game.origin()
 
   method image() = "game_over.jpg"
   
-  method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
-
 }
 
+object finDelJuego {
 
+  method position() = game.center()
+
+  method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
+}
 
 class EnemigoCuerpoACuerpo {
   var property puntaje = 5
