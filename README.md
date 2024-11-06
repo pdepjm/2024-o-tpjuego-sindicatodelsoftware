@@ -15,6 +15,10 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 
 ![pepita](assets/cuphead.png)   ![pepita](assets/alienQueSeMueve.png)   ![pepita](assets/alienQueDispara.png)
 
+Capturas juego:
+
+![pepita](assets/capturaJuego1.png)
+
 Diagrama estatico
 ![pepita](assets/DiagramaEstatico(1).png)
 
