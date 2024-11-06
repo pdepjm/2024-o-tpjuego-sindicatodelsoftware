@@ -13,7 +13,7 @@ UTN - Facultad Regional Buenos Aires - Materia Paradigmas de Programación
 ## Capturas 
 "Cuphead" - Enemigo cuerpo a cuerpo - Enemigo a distancia:
 
-![pepita](assets/cuphead.png) ![pepita](assets/alienQueSeMueve.png) ![pepita](assets/alienQueDispara.png)
+![pepita](assets/cuphead.png)   ![pepita](assets/alienQueSeMueve.png)   ![pepita](assets/alienQueDispara.png)
 
 Diagrama estatico
 ![pepita](assets/DiagramaEstatico(1).png)
