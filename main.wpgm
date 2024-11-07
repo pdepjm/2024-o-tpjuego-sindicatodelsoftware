@@ -21,21 +21,11 @@ program PlaneFight {
 //SOBRE EL PERSONAJE-----------------------------------------------------------------------
 
 //COLICIONES
-    var contador = 2
 	game.whenCollideDo(avion, { elemento => 
-    if (elemento.esEnemigo()){ 
-	    if(elemento.esCuerpoACuerpo()){
-			elemento.reaparecerAlaDerecha()
-		}
-		else if (elemento.esBala()){
-			game.removeTickEvent("disparoEnemigo2"+elemento.id())
-			game.removeVisual(elemento)
-		}
+	//TODO usar polimorfismo en vez del if
+		elemento.colicionarContraAvion()
+		if(avion.vida()== 2) corazon2.desaparecer() else if(avion.vida() == 1) corazon1.desaparecer() else if(avion.vida()==0) corazon0.desaparecer() 
 
-		avion.perderVida()
-		if(contador == 2) corazon2.desaparecer() else if(contador == 1) corazon1.desaparecer() else corazon0.desaparecer() 
-		contador -= 1
-	}
 	})
 
 
