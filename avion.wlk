@@ -1,5 +1,6 @@
 
 object avion {
+  var property estaVivo = true
   var property vida = 3 
   var property position = new MutablePosition(x=0,y=8)
   var property enemigosEliminados = 0
@@ -21,8 +22,10 @@ object avion {
     vida -= 1             //Hay que aplicarle como minimo 0
     if(self.vida() == 0){
       game.removeVisual(self)
+      game.addVisual(fondoFinJuego2)
       game.addVisual(fondoFinDelJuego)
       game.addVisual(finDelJuego)
+      estaVivo=false
       //sonidoGameOver.reproducirSonido()
     }
   }
@@ -54,14 +57,16 @@ class Corazon {
 
 object fondoFinDelJuego {
 
-  //const posicionX = (game.width() * 100) / 2
-	//const posicionY = (game.height() * 100) / 2
-
-  //method position() = game.at(posicionX,posicionY)
-  method position() = game.origin()
+  method position() = new MutablePosition(x=1,y=0)
 
   method image() = "finDelJuego.png"
   
+}
+
+object fondoFinJuego2{
+  method position() = new MutablePosition(x=0,y=0)
+
+  method image() = "finDelJuego.png"
 }
 
 object paleta {
@@ -76,6 +81,50 @@ object finDelJuego {
 
   method textColor() = paleta.rojo()
 }
+
+/*object bossFinal {
+  var property puntaje = 100
+  method esCuerpoACuerpo() = false
+  var property esBala = false
+  var property position = new MutablePosition(x=14,y=2)// mientras menos velocidad, el enemigo se desplaza mas rapido
+  var property esEnemigo = true 
+  var property vida = 5
+  var property intervaloDisparo = 1500
+  var property imagenBalaBoss = "spaceMissiles_024.png"
+  var property velocidadDisparo = 1000
+  
+  method image()="Hilda_Berg_Moon_Sprite(1).png"
+  
+  method perderVida() { 
+    vida -= 1
+    if(self.vida()==0) {
+      avion.sumarPuntaje(self)
+      fase.sacarEnemigosVivos()
+      fase.sumarEliminados(self)
+      game.removeVisual(self)
+
+    }
+  }
+    method disparar(){
+    game.onTick(self.intervaloDisparo(), "disparoBoss", { 
+      if(avion.estaVivo()){
+      const nuevaBala = new Bala(latitud=self.position().x(), altura =0.randomUpTo(9)  , imagen=imagenBalaBoss, esEnemigo=true,id = 0.randomUpTo(5000) )
+      game.addVisual(nuevaBala)
+      game.onTick(self.velocidadDisparo(), "disparoBoss1"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+      const nuevaBala = new Bala(latitud=self.position().x(), altura =0.randomUpTo(9) , imagen=imagenBalaBoss, esEnemigo=true,id = 0.randomUpTo(5000) )
+      game.addVisual(nuevaBala)
+      game.onTick(self.velocidadDisparo(), "disparoBoss2"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+      const nuevaBala = new Bala(latitud=self.position().x(), altura =0.randomUpTo(9)  , imagen=imagenBalaBoss, esEnemigo=true,id = 0.randomUpTo(5000) )
+      game.addVisual(nuevaBala)
+      game.onTick(self.velocidadDisparo(), "disparoBoss3"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+      const nuevaBala = new Bala(latitud=self.position().x(), altura =0.randomUpTo(9)  , imagen=imagenBalaBoss, esEnemigo=true,id = 0.randomUpTo(5000) )
+      game.addVisual(nuevaBala)
+      game.onTick(self.velocidadDisparo(), "disparoBoss4"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+      }
+    }) 
+    
+  }
+}*/
 
 //object sonidoGameOver {
 //  method reproducirSonido(){
@@ -124,6 +173,7 @@ class EnemigoCuerpoACuerpo {
   }
 }
 
+
 class EnemigoPistolero {
   const imagenBalaPistolero = "bala_Enemigo.png"
   method esCuerpoACuerpo() = false
@@ -146,11 +196,13 @@ class EnemigoPistolero {
   method disparar(){
     
     game.onTick(self.intervaloDisparo(), "disparoEnemigo1"+self.id(), { 
+      if(avion.estaVivo()){
       const nuevaBala = new Bala(latitud=self.position().x(), altura =self.position().y() , imagen=imagenBalaPistolero, esEnemigo=true,id = 0.randomUpTo(5000) )
       game.addVisual(nuevaBala)
       game.onTick(self.velocidadDisparo(), "disparoEnemigo2"+nuevaBala.id(), { nuevaBala.moveteIzquierda() })
+      }
     }) 
-		
+    
   }
 
   method perderVida() { 
@@ -254,6 +306,7 @@ object fase {
       nroFase = 1
 
     }
+
   }
 
   method cambiarTiempoAparicion() {
@@ -265,7 +318,7 @@ object fase {
   }
   
   method agregarCuerpoACuerpo () {
-    if (nroFase == 1 or nroFase==3){
+    if ((nroFase == 1 or nroFase==3) and avion.estaVivo()){
     const nuevoEnemigoCuerpo = new EnemigoCuerpoACuerpo(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoCuerpo)
     self.sumarEnemigosVivos()
@@ -275,13 +328,21 @@ object fase {
   }
 
   method agregarPistolero (){ //el ovni 
-    if (nroFase == 2 or nroFase==3){
+    if ((nroFase == 2 or nroFase==3) and avion.estaVivo()){
     const nuevoEnemigoPistolero = new EnemigoPistolero(id = 0.randomUpTo(5000))
     game.addVisual(nuevoEnemigoPistolero)
     self.sumarEnemigosVivos()
     nuevoEnemigoPistolero.disparar()
   }
   }
+
+  /*method agregarBoss (){
+    if(nroFase == 4 and avion.estaVivo()){
+      game.addVisual(bossFinal)
+      bossFinal.disparar()
+      self.sumarEnemigosVivos()
+    }
+  }*/
 
   method sumarEnemigosVivos() { 
     enemigosVivos += 1

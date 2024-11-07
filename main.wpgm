@@ -16,7 +16,6 @@ program PlaneFight {
 	game.addVisual(corazon0)
 	game.addVisual(corazon1)
 	game.addVisual(corazon2)
-	//avion.agregarCorazones(corazon0,corazon1,corazon2)
 	
 
 //SOBRE EL PERSONAJE-----------------------------------------------------------------------
@@ -24,7 +23,7 @@ program PlaneFight {
 //COLICIONES
     var contador = 2
 	game.whenCollideDo(avion, { elemento => 
-    if (elemento.esEnemigo()) 
+    if (elemento.esEnemigo()){ 
 	    if(elemento.esCuerpoACuerpo()){
 			elemento.reaparecerAlaDerecha()
 		}
@@ -36,6 +35,7 @@ program PlaneFight {
 		avion.perderVida()
 		if(contador == 2) corazon2.desaparecer() else if(contador == 1) corazon1.desaparecer() else corazon0.desaparecer() 
 		contador -= 1
+	}
 	})
 
 
@@ -62,7 +62,7 @@ program PlaneFight {
 			fase.cambiarFase()
 		}
 		if(fase.maxEnemigos() > fase.enemigosVivos()){
-			//Agrego enemigos
+			//fase.agregarBoss()
 			fase.agregarPistolero()
 		    fase.agregarCuerpoACuerpo() 
 		}
