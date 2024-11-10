@@ -71,7 +71,7 @@ object finDelJuego {
 
   method position() = game.center()
 
-  method text() = "Game OVER! - Puntaje obtenido: " + avion.puntaje().toString()
+  method text() = "Puntaje obtenido: " + avion.puntaje().toString()
 
   method textColor() = paleta.rojo()
 }
@@ -263,8 +263,8 @@ object fase {
   var property tiempoAparicion = 4000 //miliseg
   var property maxEnemigos = 4 
   var property enemigosVivos = 0
-  var property nroFase = 2
-  var property eliminacionesCambioFase = 10
+  var property nroFase = 1
+  var property eliminacionesCambioFase = 6
   var property enemigosEliminadosFase = 0
 
 

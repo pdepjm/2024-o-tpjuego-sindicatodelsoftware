@@ -42,10 +42,6 @@ program PlaneFight {
 	keyboard.p().onPressDo({game.say(avion,avion.decirPuntos().toString())})
 	
 
-    
-
-
-
 //SOBRE ENEMIGOS --------------------------------------------------------------------------------
 	game.onTick(fase.tiempoAparicion(),"Aparicion enemigos de la Fase",{
 		if (fase.enemigosEliminadosFase() > fase.eliminacionesCambioFase()){ //los enemigos eliminados por fase son los matados, que se comparan con la cantidad necesaria para cambiar de fase
