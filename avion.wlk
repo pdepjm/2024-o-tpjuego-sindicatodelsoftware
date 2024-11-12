@@ -45,8 +45,8 @@ class Corazon {
   method image() = "heart_21 (2).png"
   method position() = new MutablePosition(x=id,y=9)
   method desaparecer() =  game.removeVisual(self)
-  method perderVida(x){}
-  method colicionarContraAvion(){}
+  method perderVida(x){}            // lo entiende pero no hace nada
+  method colicionarContraAvion(){}  // lo entiende pero no hace nada
 }
 
 object fondoFinDelJuego {
@@ -74,6 +74,8 @@ object finDelJuego {
   method text() = "Puntaje obtenido: " + avion.puntaje().toString()
 
   method textColor() = paleta.rojo()
+
+  method perderVida(x){}  // lo entiende pero no hace nada
 }
 
 /*object bossFinal {
@@ -153,7 +155,7 @@ class EnemigoCuerpoACuerpo {
     }
   }
   
-    method perderVida(nuevaBala) { 
+  method perderVida(nuevaBala) { 
     vida -= 1
     if(self.vida()==0) {
       avion.sumarPuntaje(self)
@@ -222,7 +224,7 @@ class Bala {
 
   method image() = imagen
 
-  method perderVida(nuevaBala) {} 
+  method perderVida(nuevaBala) {} // lo entiende pero no hace nada
 
   method vida () = 3
 
