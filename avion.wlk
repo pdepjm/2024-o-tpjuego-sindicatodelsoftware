@@ -53,7 +53,7 @@ object fondoFinDelJuego {
 
   method position() = new MutablePosition(x=1,y=0)
 
-  method image() = "finDelJuego.png"
+  method image() = "gameOver.png"
   
 }
 

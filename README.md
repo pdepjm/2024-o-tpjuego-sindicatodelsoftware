@@ -20,7 +20,7 @@ Capturas juego:
 ![pepita](assets/capturaJuego1.png)
 
 Diagrama estatico
-![pepita](assets/DiagramaEstatico(1).png)
+![pepita](assets/diagramaEstaticoFinal.png)
 
 ## Reglas de Juego / Instrucciones
 
